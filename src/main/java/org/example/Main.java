@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 // Press ⇧ twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
-public class Main {
+public class Main extends Thread {
+    public static int amount = 0;
+
     public static void main(String[] args) {
         // Press ⌥⏎ with your caret at the highlighted text to see how
         // IntelliJ IDEA suggests fixing it.
@@ -59,6 +61,28 @@ public class Main {
 
         System.out.println(sum(10));
         System.out.println(sum(5, 10));
+
+        Pig myPig = new Pig(); // Create a Pig object
+        myPig.animalSound();
+        myPig.sleep();
+
+
+        Main thread = new Main();
+        thread.start();
+        // Wait for the thread to finish
+        while(thread.isAlive()) {
+            System.out.println("Thread: " + amount);
+            System.out.println("Waiting...");
+        }
+        // Update amount and print its value
+        System.out.println("Main a: " + amount);
+        amount++;
+        System.out.println("Main b: " + amount);
+
+        StringFunction exclaim = (s) -> s + "!";
+        StringFunction ask = (s) -> s + "?";
+        printFormatted("Hello", exclaim);
+        printFormatted("Hello", ask);
     }
 
     static void myMethod(String fname) {
@@ -83,4 +107,37 @@ public class Main {
         }
     }
 
+
+    public void run() {
+        amount++;
+        amount++;
+    }
+
+    public static void printFormatted(String str, StringFunction format) {
+        String result = format.run(str);
+        System.out.println(result);
+    }
+}
+
+interface StringFunction {
+    String run(String str);
+}
+
+// Abstract class
+abstract class Animal {
+    // Abstract method (does not have a body)
+    public abstract void animalSound();
+
+    // Regular method
+    public void sleep() {
+        System.out.println("Zzz");
+    }
+}
+
+// Subclass (inherit from Animal)
+class Pig extends Animal {
+    public void animalSound() {
+        // The body of animalSound() is provided here
+        System.out.println("The pig says: wee wee");
+    }
 }
