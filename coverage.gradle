@@ -1,4 +1,5 @@
 project.coverage.excludes = [
-    'com.example.javastartter/Application.class',
-    'com.example.javastartter/**',
+    'com/example/javastartter/Application.class',
+    'com/example/javastartter/CustomContextProvider.class',
+    'com/example/javastartter/frameworks/**',
 ]

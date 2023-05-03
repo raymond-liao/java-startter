@@ -7,6 +7,7 @@ sourceCompatibility = '17'
 dependencies {
     implementation libs.spring.boot.starter.jdbc
     implementation libs.migration.flyway
+    testImplementation libs.test.spring.restdocs.restassured
     runtimeOnly libs.persistence.postgresql
     testImplementation project(":frameworks.test.postgres")
     implementation project(":frameworks.test.web")

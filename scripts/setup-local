@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+docker rm -f startter.database
+
+if ! (docker run -d --name startter.database --restart always -p 5446:5432 -e POSTGRES_USER=dbadmin -e POSTGRES_PASSWORD=highsoft postgres:14); then
+  echo "Failed to start database service"
+  exit 1
+fi
+
+echo "Waiting database service to start..."
+sleep 3
+
+if ! (docker exec startter.database psql -U dbadmin -c "create database startter"); then
+  echo "Failed to create main database"
+  exit 1
+fi
+
+if ! (docker exec startter.database psql -U dbadmin -c "create database startter_adapter"); then
+  echo "Failed to create adapter database"
+  exit 1
+fi
+
+echo "Local dev environment setup completed, enjoy please!"

@@ -1,26 +1,26 @@
 package com.example.javastartter;
 
+import com.example.javastartter.frameworks.test.web.Documentation;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static com.example.javastartter.frameworks.test.web.Documentation.doc;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
-@WebMvcTest(HomeController.class)
-@AutoConfigureMockMvc
-public class HomeControllerTests {
-    @Autowired
-    private MockMvc mockMvc;
-
+public class HomeControllerTests extends ApiTest {
     @Test
-    public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hello, World")));
+    public void shouldReturnDefaultHelloMessage() {
+        var response = get("/", document());
+        response.statusCode(is(200)).body("id", is("Hello, World"));
+    }
+
+    @Override
+    protected Documentation document() {
+        return doc("home.hello.world",
+                responseFields(
+                        fieldWithPath("id").description("Hello World")
+                )
+        );
     }
 }
