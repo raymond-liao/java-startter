@@ -1,0 +1,4 @@
+project.coverage.excludes = [
+    'com.example.javastartter/Application.class',
+    'com.example.javastartter/**',
+]

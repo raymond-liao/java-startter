@@ -1,22 +1,19 @@
-plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.0.6'
-	id 'io.spring.dependency-management' version '1.1.0'
-}
+apply from: "$rootDir/gradle/config/scripts/root.gradle"
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-repositories {
-	mavenCentral()
-}
-
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
+    implementation libs.spring.boot.starter.jdbc
+    implementation libs.migration.flyway
+    runtimeOnly libs.persistence.postgresql
+    testImplementation project(":frameworks.test.postgres")
+    implementation project(":frameworks.test.web")
+    implementation project(":frameworks.domain.core")
+    implementation project(":frameworks.application.core")
+    implementation project(":frameworks.security.core")
+    implementation project(":frameworks.application.spring")
+    testImplementation project(":frameworks.test.moco")
+    annotationProcessor libs.spring.boot.configuration.processor
 }
